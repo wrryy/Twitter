@@ -1,6 +1,7 @@
 package pl.wrryy.entity;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -21,7 +22,7 @@ public class Tweet {
 
     private LocalDateTime created;
 
-    @NotNull
+//    @NotNull
     @ManyToOne
     private User user;
 

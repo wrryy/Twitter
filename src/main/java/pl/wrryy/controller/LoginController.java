@@ -34,7 +34,8 @@ public class LoginController {
         if (user != null) {
             session.setAttribute("user", user);
 //            model.addAttribute("username", username);
-            return "redirect:/user/userpage";
+//            return "redirect:/user/userpage";
+            return "redirect:/";
         } else {
             return "user/login";
         }
@@ -57,4 +58,10 @@ public class LoginController {
             return "redirect:/user/userpage";
         }
     }
+    @GetMapping(path = "/logout")
+    public String logut(HttpSession session) {
+        session.setAttribute("user", null);
+        return "/";
+    }
+
 }

@@ -13,7 +13,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotEmpty
+//    @NotEmpty
     @Column(nullable = false, unique = true)
     private String username;
     @NotEmpty
@@ -27,8 +27,8 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<Tweet> tweets; 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Tweet> tweets;
 
     public User() {
     }
