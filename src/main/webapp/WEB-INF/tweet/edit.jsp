@@ -11,8 +11,6 @@
 <h2>Dodaj Tweeta</h2>
 <form:form modelAttribute="tweet" method="post">
     <form:hidden path="id"/>
-    <form:errors class="bg-danger text-danger" path="title"/><br>
-    Title <form:input path="title"/><br>
     <form:errors class="bg-danger text-danger" path="user"/><br>
     User <form:select items="${users}" path="user.id" itemLabel="fullName" itemValue="id"></form:select>
     Content<br><form:errors class="bg-danger text-danger" path="tweetText"/><br>

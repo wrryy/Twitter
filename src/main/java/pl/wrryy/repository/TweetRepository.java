@@ -11,10 +11,10 @@ import java.util.List;
 public interface TweetRepository extends JpaRepository<Tweet, Integer> {
 
     public List<Tweet> findTweetsByUserIdOrderByCreatedDesc(int id);
-    public List<Tweet> findTweetsByTweetTextIsStartingWithOrderByCreatedDesc(String start);
+    public List<Tweet> findTweetsByTweetTextContainsOrderByCreatedDesc(String start);
     public List<Tweet> findTweetsByUserId(int id);
 
-    @Query(value = "Select * from tweeter_tweet order by created desc", nativeQuery = true)
+    @Query(value = "Select * from tweet order by created desc", nativeQuery = true)
     public List<Tweet> sortByCreated();
 
 

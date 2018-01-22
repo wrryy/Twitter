@@ -4,33 +4,33 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-@Table(name = "tweeter_user")
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotEmpty
-    @NotNull
-    private String firstName;
+    @Column(nullable = false, unique = true)
+    private String username;
     @NotEmpty
-    @NotNull
-    private String lastName;
+    @Column(nullable = false)
+    private String password;
+
+    private boolean enabled;
 
     @Email
+    @NotEmpty
+    @Column(nullable = false, unique = true)
     private String email;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Tweet> tweets; 
 
     public User() {
-    }
-    public String getFullName(){
-        return firstName + " " + lastName;
     }
     public int getId() {
         return id;
@@ -40,20 +40,20 @@ public class User {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getPassword() {
+        return password;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
@@ -62,5 +62,26 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Tweet> getTweets() {
+        return tweets;
+    }
+
+    public void setTweets(List<Tweet> tweets) {
+        this.tweets = tweets;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    @Override
+    public String toString() {
+        return username;
     }
 }

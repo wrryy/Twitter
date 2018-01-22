@@ -9,14 +9,11 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @Entity
-@Table(name = "tweeter_tweet")
+@Table(name = "tweet")
 public class Tweet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Size(min = 5, max = 50)
-    private String title;
 
     @NotEmpty
     @Size(max = 160)
@@ -38,14 +35,6 @@ public class Tweet {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getTweetText() {

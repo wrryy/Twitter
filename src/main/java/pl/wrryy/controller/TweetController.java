@@ -14,7 +14,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/tweet")
+@SessionAttributes("user")
+@RequestMapping("/tweet/")
 public class TweetController {
     @Autowired
     TweetRepository tweetRepository;
@@ -22,33 +23,35 @@ public class TweetController {
     UserRepository userRepository;
 
     @ModelAttribute("users")
-    public List<User> users() {
-        return userRepository.findAll();
+    public List<User> getUsers() {
+        return userRepository.findAllByFullName();
     }
-
-    @RequestMapping("/all")
-    public String allTweets(Model model) {
-        model.addAttribute("tweets", tweetRepository.sortByCreated());
+    @RequestMapping("/user/{id}")
+    public String userTweets(@PathVariable int id, Model model) {
+        model.addAttribute("tweets", tweetRepository.findTweetsByUserIdOrderByCreatedDesc(id));
         return "tweets";
     }
-
-    @GetMapping("/add")
-    public String addTweet(Model model) {
-        model.addAttribute("tweet", new Tweet());
-        return "tweet/add";
-    }
-
     @PostMapping("/add")
-    public String addTweet(@Valid Tweet tweet, BindingResult result) {
-        if (result.hasErrors()) {
-            return "tweet/add";
+    public String allTweetsAdd(@Valid Tweet tweet, BindingResult result){
+        if(tweet.getUser()==null){
+            return "redirect:/login";
+        }
+        else if (result.hasErrors()) {
+            return "index";
         } else {
             tweetRepository.save(tweet);
-            return "redirect:/tweet/all";
+            return "redirect:/";
         }
     }
+    @GetMapping("/info")
+    
 
-    @RequestMapping("/deletetweets")
+    @RequestMapping("/delete")
+    public String deleteTweet(@RequestParam int id){
+        tweetRepository.delete(id);
+            return "redirect:/tweet/all";
+    }
+    @PostMapping("/deleteall")
     public String deleteUserTweets(@RequestParam int id) {
         for (Tweet t : tweetRepository.findTweetsByUserId(id)) {
             tweetRepository.delete(t.getId());

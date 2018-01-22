@@ -6,45 +6,21 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.wrryy.entity.User;
-import pl.wrryy.repository.TweetRepository;
 import pl.wrryy.repository.UserRepository;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
+@SessionAttributes("user")
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    TweetRepository tweetRepository;
-    @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/search-tweets")
-    public String search(Model model, @RequestParam String start) {
-        model.addAttribute("tweets", tweetRepository.findTweetsByTweetTextIsStartingWithOrderByCreatedDesc(start));
-        return "tweets";
-    }
-
-    @RequestMapping("/{id}/tweets")
-    public String userTweets(@PathVariable int id, Model model) {
-        model.addAttribute("tweets", tweetRepository.findTweetsByUserIdOrderByCreatedDesc(id));
-        return "tweets";
-    }
-
-    @GetMapping("/add")
-    public String addUser(Model model) {
-        model.addAttribute("user", new User());
-        return "user/add";
-    }
-
-    @PostMapping("/add")
-    public String addUser(@Valid User user, BindingResult result) {
-        if (result.hasErrors()) {
-            return "user/add";
-        } else {
-            userRepository.save(user);
-            return "redirect:/user/all";
-        }
+    @ModelAttribute("users")
+    public List<User> getUsers() {
+        return userRepository.findAllByFullName();
     }
 
     @GetMapping("/edit")
@@ -62,20 +38,26 @@ public class UserController {
             return "redirect:/user/all";
         }
     }
-    @GetMapping("/delete")
-    public String deleteUser(@RequestParam int id){
+
+    @PostMapping("/delete")
+    public String deleteUser(@RequestParam int id) {
         userRepository.delete(id);
         return "redirect:/user/all";
     }
 
-    @GetMapping("/clear")
-    public String deleteUsers(){
-        userRepository.deleteAll();
-        return "redirect:/user/all";
-    }
     @RequestMapping("/all")
-    public String allUsers(Model model){
+    public String allUsers(Model model) {
         model.addAttribute("users", userRepository.findAllByFullName());
         return "user/all";
+    }
+
+    @GetMapping("/userpage")
+    public String showUserSettings(Model model, @SessionAttribute(required = false) User user) {
+        if(user!=null){
+        model.addAttribute(user);
+        return "user/setting";
+        }else{
+            return "user/login";
+        }
     }
 }
