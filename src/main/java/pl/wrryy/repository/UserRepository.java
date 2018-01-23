@@ -12,4 +12,5 @@ public interface UserRepository extends JpaRepository<User, Integer>{
     @Query(value = "Select * from user order by username asc", nativeQuery = true)
     public List<User> findAllByFullName();
     public User findOneByUsernameAndPassword(String username, String password);
+    public User findUserByUsernameEquals(String username);
 }

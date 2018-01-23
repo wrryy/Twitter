@@ -5,19 +5,34 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.wrryy.entity.Tweet;
 import pl.wrryy.entity.User;
+import pl.wrryy.repository.CommentRepository;
+import pl.wrryy.repository.TweetRepository;
 import pl.wrryy.repository.UserRepository;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@SessionAttributes("user")
+@SessionAttributes({"user", "tweet"})
 @RequestMapping("/user")
 public class UserController {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    TweetRepository tweetRepository;
+@Autowired
+    CommentRepository commentRepository;
 
+    @ModelAttribute("tweet")
+    public Tweet nt(HttpSession session) {
+        Tweet tweet = new Tweet();
+        tweet.setUser(new User());
+        session.setAttribute("tweet", tweet);
+        return tweet;
+    }
     @ModelAttribute("users")
     public List<User> getUsers() {
         return userRepository.findAllByFullName();
@@ -51,13 +66,13 @@ public class UserController {
         return "user/all";
     }
 
-    @GetMapping("/userpage")
-    public String showUserSettings(Model model, @SessionAttribute(required = false) User user) {
-        if(user!=null){
-        model.addAttribute(user);
+    @GetMapping("/{username}")
+    public String showUserSettings(Model model, @PathVariable String username) {
+//        @SessionAttribute(required = false) User user
+        User user =  userRepository.findUserByUsernameEquals(username);
+        model.addAttribute("usr", user);
+        model.addAttribute("tweets", tweetRepository.findTweetsByUserId(user.getId()));
+        model.addAttribute("comments", commentRepository.findCommentsByUserId(user.getId()));
         return "user/userpage";
-        }else{
-            return "user/login";
-        }
     }
 }

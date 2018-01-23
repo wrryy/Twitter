@@ -10,9 +10,11 @@
 <body>
 <%@ include file="menu.jsp" %>
 <c:forEach items="${tweets}" var="twt">
-    <p> <h5 class="small text-info">User: ${twt.user.username}<br>${twt.createdd} <a href="/tweet/info">Details</a></h5>
-    ${twt.tweetText}</p>
+    <p> <h5 class="small text-info">User: ${twt.user.username}<br>${twt.createdd} <a
+        href="/tweet/${twt.id}">Details</a></h5>
+    <h3 class="tweet"> ${twt.tweetText}</h3>
     <hr>
+    </p>
 </c:forEach>
 </body>
 </html>

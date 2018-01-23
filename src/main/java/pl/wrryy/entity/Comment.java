@@ -1,6 +1,7 @@
 package pl.wrryy.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
@@ -19,9 +20,11 @@ public class Comment {
 
     private LocalDateTime created;
 
+    @Size(max = 50)
     private String text;
 
     public Comment() {
+        this.created = LocalDateTime.now();
     }
 
     public String getCreatedd() {

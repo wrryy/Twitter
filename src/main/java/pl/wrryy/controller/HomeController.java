@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import pl.wrryy.entity.Comment;
 import pl.wrryy.entity.Tweet;
 import pl.wrryy.entity.User;
+import pl.wrryy.repository.CommentRepository;
 import pl.wrryy.repository.TweetRepository;
 import pl.wrryy.repository.UserRepository;
 
@@ -28,12 +30,18 @@ public class HomeController {
     public List<User> getUsers() {
         return userRepository.findAllByFullName();
     }
-    @GetMapping("/")
-    public String allTweets(Model model, HttpSession session) {
-        model.addAttribute("tweets", tweetRepository.sortByCreated());
+
+    @ModelAttribute("tweet")
+    public Tweet nt(HttpSession session) {
         Tweet tweet = new Tweet();
         tweet.setUser(new User());
         session.setAttribute("tweet", tweet);
+        return tweet;
+    }
+
+    @GetMapping("/")
+    public String allTweets(Model model) {
+        model.addAttribute("tweets", tweetRepository.sortByCreated());
         return "index";
     }
 

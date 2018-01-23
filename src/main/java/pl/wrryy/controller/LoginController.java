@@ -59,8 +59,11 @@ public class LoginController {
     }
     @GetMapping(path = "/logout")
     public String logut(HttpSession session) {
-        session.setAttribute("user", null);
-        return "/";
+        User user = null;
+//        session.setAttribute("user", null);
+//        session.removeAttribute("user");
+        session.invalidate();
+        return "redirect:/";
     }
 
 }
