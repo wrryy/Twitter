@@ -32,7 +32,7 @@ public class HomeController {
     public String allTweets(Model model, HttpSession session) {
         model.addAttribute("tweets", tweetRepository.sortByCreated());
         Tweet tweet = new Tweet();
-        tweet.setUser((User) session.getAttribute("user"));
+        tweet.setUser(new User());
         session.setAttribute("tweet", tweet);
         return "index";
     }

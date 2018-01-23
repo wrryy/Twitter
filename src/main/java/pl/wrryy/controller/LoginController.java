@@ -33,7 +33,6 @@ public class LoginController {
 
         if (user != null) {
             session.setAttribute("user", user);
-//            model.addAttribute("username", username);
 //            return "redirect:/user/userpage";
             return "redirect:/";
         } else {

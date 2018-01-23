@@ -22,7 +22,6 @@ public class Tweet {
 
     private LocalDateTime created;
 
-//    @NotNull
     @ManyToOne
     private User user;
 

@@ -10,6 +10,7 @@ import pl.wrryy.entity.User;
 import pl.wrryy.repository.TweetRepository;
 import pl.wrryy.repository.UserRepository;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -32,13 +33,15 @@ public class TweetController {
         return "tweets";
     }
     @PostMapping("/add")
-    public String allTweetsAdd(@Valid Tweet tweet, BindingResult result){
-        if(tweet.getUser()==null){
+    public String allTweetsAdd(@Valid Tweet tweet, BindingResult result, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if(user==null){
             return "redirect:/login";
         }
         else if (result.hasErrors()) {
             return "index";
         } else {
+            tweet.setUser(user);
             tweetRepository.save(tweet);
             return "redirect:/";
         }

@@ -11,7 +11,12 @@
         width: initial;
         float: right;
     }
-
+    .menu {
+        margin-bottom: 25px;
+    }
+    p{
+        clear: both;
+    }
     .afloatright {
         float: right;
         margin-top: 5px;
@@ -19,8 +24,8 @@
         margin-right: 10px;
     }
 </style>
-<div>
-    <form:form action="/tweet/add" class="d-inline" modelAttribute="tweet" method="post">
+<div class="menu">
+    <form:form action="/tweet/add" modelAttribute="tweet" method="post">
         <form:errors class="bg-danger text-danger" path="user.id"/>
         <form:hidden path="user.id"/>
         <form:errors class="bg-danger text-danger" path="tweetText"/>
@@ -32,7 +37,7 @@
         <a class="afloatright" href="/login">Login</a>
     </c:if>
     <c:if test="${user!=null}">
-        <a class="afloatright" href="/user/settings">Hello ${user}</a>
+        <a class="afloatright" href="/user/userpage">Hello ${user}</a>
     </c:if>
     <form class="div2" action="/search/tag">
         <input type="text" required>

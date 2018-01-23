@@ -55,7 +55,7 @@ public class UserController {
     public String showUserSettings(Model model, @SessionAttribute(required = false) User user) {
         if(user!=null){
         model.addAttribute(user);
-        return "user/setting";
+        return "user/userpage";
         }else{
             return "user/login";
         }

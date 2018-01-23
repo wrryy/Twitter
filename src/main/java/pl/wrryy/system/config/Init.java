@@ -1,4 +1,4 @@
-package pl.wrryy.system.init;
+package pl.wrryy.system.config;
 
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -23,4 +23,3 @@ public class Init implements WebApplicationInitializer {
         servlet.addMapping("/");
     }
 }
-
