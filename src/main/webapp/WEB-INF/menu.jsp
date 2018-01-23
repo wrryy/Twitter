@@ -66,7 +66,7 @@
         <a class="afloatright" href="/user/${user}">Hello ${user}</a>
     </c:if>
     <form class="div2" action="/search/tag">
-        <input type="text" required>
+        <input type="text" name="tag" required>
         <input type="submit" value="Search tags">
     </form>
 </div>

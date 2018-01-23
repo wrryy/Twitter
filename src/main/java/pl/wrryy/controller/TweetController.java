@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.wrryy.entity.Comment;
 import pl.wrryy.entity.Tweet;
 import pl.wrryy.entity.User;
@@ -17,7 +18,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@SessionAttributes({"user", "tweet"})
+@SessionAttributes({"user"})
 @RequestMapping("/tweet/")
 public class TweetController {
     @Autowired
@@ -32,13 +33,11 @@ public class TweetController {
 //        return userRepository.findAllByFullName();
 //    }
     @ModelAttribute("tweet")
-    public Tweet nt(HttpSession session) {
+    public Tweet nt(Model model) {
         Tweet tweet = new Tweet();
         tweet.setUser(new User());
-        session.setAttribute("tweet", tweet);
         return tweet;
     }
-
     @PostMapping("/add")
     public String allTweetsAdd(@Valid Tweet tweet, BindingResult result, HttpSession session) {
         User user = (User) session.getAttribute("user");
@@ -49,7 +48,7 @@ public class TweetController {
         } else {
             tweet.setUser(user);
             tweetRepository.save(tweet);
-            session.removeAttribute("tweet");
+//            session.removeAttribute("tweet");
             return "redirect:/";
         }
     }

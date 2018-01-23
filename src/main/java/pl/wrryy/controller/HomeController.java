@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@SessionAttributes({"user", "tweet"})
+@SessionAttributes({"user"})
 public class HomeController {
 
     @Autowired
@@ -26,19 +26,12 @@ public class HomeController {
     @Autowired
     UserRepository userRepository;
 
-    @ModelAttribute("users")
-    public List<User> getUsers() {
-        return userRepository.findAllByFullName();
-    }
-
     @ModelAttribute("tweet")
     public Tweet nt(HttpSession session) {
         Tweet tweet = new Tweet();
         tweet.setUser(new User());
-        session.setAttribute("tweet", tweet);
         return tweet;
     }
-
     @GetMapping("/")
     public String allTweets(Model model) {
         model.addAttribute("tweets", tweetRepository.sortByCreated());
@@ -49,8 +42,7 @@ public class HomeController {
     public String search(Model model, @RequestParam String tag) {
         String search = "#" + tag;
         model.addAttribute("tweets", tweetRepository.findTweetsByTweetTextContainsOrderByCreatedDesc(search));
-        return "tweets";
+        return "index";
     }
-
 
 }

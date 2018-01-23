@@ -9,6 +9,13 @@
 </head>
 <body>
 <%@ include file="../menu.jsp" %>
+
+<form:form modelAttribute="message" method="post">
+    User <form:select items="${users}" path="user.id" itemLabel="fullName" itemValue="id"></form:select>
+    Content<br><form:errors class="bg-danger text-danger" path="tweetText"/><br>
+    <form:textarea path="tweetText" cols="20" rows="5"/><br>
+    <input type="submit" value="Wyslij">
+</form:form>
    <p>User tweets</p>
 <c:forEach items="${tweets}" var="twt">
     <p> <h5 class="small text-info">${twt.createdd} <a href="/tweet/${twt.id}">Details</a></h5>
