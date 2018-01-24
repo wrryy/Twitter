@@ -15,6 +15,8 @@ public class Message {
 
     @ManyToOne
     private User addressee;
+
+    private String text;
     private LocalDateTime created;
 
     public Message() {
@@ -22,6 +24,22 @@ public class Message {
     }
     public String getCreatedd() {
         return Arrays.toString(created.toString().split("T"));
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
     }
 
     public int getId() {

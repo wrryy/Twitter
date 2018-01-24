@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.wrryy.entity.Message;
+import pl.wrryy.entity.Tweet;
 import pl.wrryy.entity.User;
 import pl.wrryy.repository.MessageRepository;
 import pl.wrryy.repository.UserRepository;
@@ -14,10 +15,18 @@ import java.util.List;
 
 @Controller
 public class MessageController {
+
     @Autowired
     UserRepository userRepository;
     @Autowired
     MessageRepository messageRepository;
+
+    @ModelAttribute("tweet")
+    public Tweet nt(HttpSession session) {
+        Tweet tweet = new Tweet();
+        tweet.setUser(new User());
+        return tweet;
+    }
     @ModelAttribute("users")
     public List<User> getUsers() {
         return userRepository.findAllByFullName();
@@ -30,7 +39,7 @@ public class MessageController {
         } else {
             message.setSender(user);
             messageRepository.save(message);
-            return "redirect:/tweet/" + id;
+            return "redirect:/tweet/" + user.getId();
         }
     }
 }
