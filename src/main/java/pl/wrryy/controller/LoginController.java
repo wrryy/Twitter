@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import pl.wrryy.entity.User;
 import pl.wrryy.repository.UserRepository;
 
@@ -58,11 +59,10 @@ public class LoginController {
         }
     }
     @GetMapping(path = "/logout")
-    public String logut(HttpSession session) {
+    public String logut(HttpSession session, SessionStatus sessionStatus) {
         User user = null;
-//        session.setAttribute("user", null);
-//        session.removeAttribute("user");
-        session.invalidate();
+        session.removeAttribute("user");
+        sessionStatus.setComplete();  
         return "redirect:/";
     }
 
